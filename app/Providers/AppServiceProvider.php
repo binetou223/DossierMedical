@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Constante;
+use App\Models\Ordonnance;
+use App\Observers\ConstanteObserver;
+use App\Observers\OrdonnanceObserver;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -24,6 +28,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+
+        Constante::observe(ConstanteObserver::class);
+        Ordonnance::observe(OrdonnanceObserver::class);
     }
 
     /**

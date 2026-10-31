@@ -1,25 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
-     * Seed the application's database.
+     * Exécuter l'ensemble des seeders de l'application.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->command->info('Démarrage de l\'amorçage Eloquent pour Dossier Médical...');
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $this->call([
+            ServiceSeeder::class,
+            UserSeeder::class,
+            MedecinSeeder::class,
+            SecretaireSeeder::class,
+            PatientSeeder::class,
+            DossierMedicalSeeder::class,
+            ConstanteSeeder::class,
+            RendezVousSeeder::class,
+            ConsultationSeeder::class,
+            OrdonnanceSeeder::class,
+            DocumentMedicalSeeder::class,
+            JournalAuditSeeder::class,
         ]);
+
+        $this->command->info('Amorçage Eloquent terminé avec succès !');
     }
 }
