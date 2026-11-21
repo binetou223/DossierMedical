@@ -80,21 +80,12 @@ graph TD
 
 ---
 
-### ⏳ Étape 4 : Couche Services Métier & Pattern Strategy (Logique Santé & SRP)
-- **Branche Git :** `feat/04-service-layer-and-strategies`
-- **Objectifs :**
-  - Services métier isolés :
-    - `RendezVousService` : Gestion du cycle de vie du RDV (création, confirmation, annulation avec motif, détection de conflits d'horaire).
-    - `DossierMedicalService` : Gestion des constantes, calcul automatique des alertes de constantes (Strategy Pattern pour les seuils de tension, glycémie, IMC).
-    - `ConsultationService` : Clôture de consultation, génération d'ordonnance et items de prescription.
-    - `AuditService` : Enregistrement immuable des accès aux données de santé conformément à la loi CDP Sénégal.
-  - Tests unitaires des services avec simulation des repositories.
-- **Commande Git :**
-  ```bash
-  git checkout -b feat/04-service-layer-and-strategies
-  git commit -m "feat(services): ajout de la couche de services metier et du pattern Strategy"
-  git push -u origin feat/04-service-layer-and-strategies
-  ```
+### ✅ Étape 4 : Couche Services Métier & Pattern Strategy (Logique Santé & SRP)
+- **Branche Git :** `feat/04-service-layer-and-strategies` (Pushée sur `origin/feat/04-service-layer-and-strategies`)
+- **Principes & Patterns :**
+  - **SRP (Single Responsibility Principle) :** Services métier dédiés (`PatientService`, `RendezVousService`, `DossierMedicalService`, `ConsultationService`, `AuditService`).
+  - **OCP (Open/Closed Principle) & Strategy Pattern :** Évaluation dynamique des alertes cliniques (`VitalsAlertManager`, `ImcAlertStrategy`, `BloodPressureAlertStrategy`, `GlycemiaAlertStrategy`, `HeartRateAlertStrategy`).
+  - **DIP (Dependency Inversion Principle) :** Injection via `BusinessServiceProvider` des contrats d'interface de services.
 
 ---
 
