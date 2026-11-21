@@ -1,0 +1,234 @@
+PLAN DIRECTEUR DU MÉMOIRE
+Étude et mise en place d'un Système de Gestion de Dossier Médical Électronique
+Application Web – Application mobile en perspectives
+Étudiante : Binetou
+Niveau : IG3 – Licence en Gestion des Systèmes d'Information
+Encadreur : Ahmed Ben Sidy Bouya Seye
+Sujet n° 5
+Document de cadrage – Octobre 2026
+Sommaire
+1. Présentation du sujet
+1.1 Énoncé
+Le travail porte sur le domaine sanitaire. Il s'agit de faciliter au patient le suivi de ses rendez-vous et de l'historique de ses consultations, et de faciliter au médecin le traitement des rendez-vous ainsi que le suivi du dossier patient.
+1.2 Problématique à formuler
+Comment concevoir et mettre en place un système de dossier médical électronique qui améliore la prise de rendez-vous et la continuité du suivi médical, tout en garantissant la confidentialité des données de santé ?
+1.3 Objectifs
+Objectif général : dématérialiser la gestion des rendez-vous et du dossier médical entre patients et médecins.
+Objectifs spécifiques : centraliser le dossier patient ; permettre la prise et la gestion des rendez-vous en ligne ; offrir au patient l'accès à son historique de consultations ; sécuriser les accès selon les rôles ; fournir à l'administration des indicateurs de suivi.
+1.4 Orientations de cadrage
+Trois décisions structurent le travail :
+Priorité à la qualité du document : analyse, conception et rédaction rigoureuses, cohérentes entre elles et justifiées. C'est le critère principal d'appréciation.
+Périmètre : application Web responsive (patient, secrétaire, médecin, administrateur), développée avec Laravel (PHP orienté objet, architecture MVC, accès aux données via PDO), Vue.js et Inertia.js, et modélisée en UML.
+Culture technique : Laravel, Vue.js et Inertia.js sont retenus : l'étudiante en a une bonne connaissance, ce qui permet de concentrer l'effort sur l'analyse, la conception et la qualité du document. Elle devra néanmoins savoir expliquer et justifier les fondamentaux que ces outils encapsulent : PHP orienté objet, MVC, PDO, cycle requête-réponse HTTP.
+Application mobile en perspectives : l'application Flutter n'est pas obligatoire. Elle est étudiée et conçue dans le chapitre « Perspectives », mais non réalisée.
+Démonstration : la démonstration de l'application est un plus valorisé, à préparer sérieusement sans qu'elle conditionne la validité du mémoire.
+2. Structure détaillée du mémoire
+Le plan ci-dessous suit les conventions académiques françaises ; il est à adapter au canevas officiel de l'établissement.
+Pages liminaires
+Dédicaces, remerciements, sommaire, liste des sigles et abréviations, liste des figures, liste des tableaux, résumé (français) et abstract (anglais).
+Introduction générale
+Contexte de la santé numérique au Sénégal, problématique, objectifs, méthodologie, annonce du plan (1 à 2 pages).
+Partie I – Cadre général et étude de l'existant
+Chapitre 1 : Présentation de la structure d'accueil
+Historique, missions, organisation et organigramme.
+Processus actuel de prise en charge d'un patient.
+Chapitre 2 : Étude de l'existant
+Description de la gestion actuelle des rendez-vous et des dossiers (papier, tableur).
+Recueil des besoins : entretiens avec médecins, secrétaires et patients (guide d'entretien en annexe).
+Critique de l'existant : pertes de dossiers, files d'attente, absence d'historique centralisé.
+Solution proposée.
+Chapitre 3 : Concepts et état de l'art
+Dossier médical électronique (DME), dossier patient informatisé.
+Interopérabilité et standards (HL7 FHIR) : notions générales.
+Sécurité et confidentialité des données de santé : secret médical, cadre légal sénégalais (loi sur les données à caractère personnel, CDP).
+Étude comparative de solutions existantes (par exemple OpenMRS, plateformes de prise de rendez-vous en ligne).
+Partie II – Analyse et conception
+Chapitre 4 : Démarche et spécification des besoins
+Démarche de développement itérative et langage de modélisation UML.
+Identification des acteurs : patient, secrétaire, médecin, administrateur.
+Besoins fonctionnels et non fonctionnels.
+Diagrammes de cas d'utilisation et description textuelle des cas principaux.
+Chapitre 5 : Conception
+Architecture MVC avec Laravel : correspondance entre les concepts MVC et leur mise en œuvre (routes, contrôleurs, modèles Eloquent, pages Vue rendues via Inertia), Form Requests et Policies.
+Diagrammes de séquence (connexion, prise de rendez-vous, consultation) et d'activité (parcours d'un patient).
+Diagramme de classes, modèle conceptuel et logique de données, dictionnaire de données.
+Politique de sécurité : authentification, rôles et droits, hachage des mots de passe, requêtes préparées (Eloquent/PDO), protection XSS et CSRF, validation côté serveur, journal d'audit.
+Partie III – Réalisation et mise en œuvre
+Chapitre 6 : Choix technologiques et environnement
+Justification argumentée des choix : Laravel face à un MVC natif, Inertia face à une API REST avec application monopage, Vue.js face à Blade/Livewire ou React, Eloquent face à PDO direct.
+Fondamentaux sous le framework : cycle requête-réponse, requêtes préparées PDO générées par Eloquent, protection CSRF, hachage des mots de passe.
+Environnement de développement, outils et versionnage Git.
+Chapitre 7 : Présentation de la solution
+Captures d'écran commentées par module et par acteur.
+Extraits de code significatifs (routes, contrôleurs, modèles Eloquent, policies, pages Vue).
+Tableau de traçabilité besoin → cas d'utilisation → écran → test.
+Chapitre 8 : Tests, déploiement et évaluation
+Plan de tests fonctionnels et de sécurité, sur jeux de données fictifs.
+Déploiement et estimation du coût du projet.
+Difficultés rencontrées et limites.
+Conclusion générale et perspectives
+Bilan par rapport aux objectifs et apports personnels, puis perspectives :
+Application mobile Flutter : architecture envisagée (Inertia ne fournissant pas d'API, ajout de routes API REST JSON avec Laravel Sanctum pour l'authentification par jeton, réutilisation des modèles, policies et de la logique métier existants), écrans prioritaires du patient (connexion, rendez-vous, historique), contraintes (émulateur, hébergement, sécurité des échanges).
+Autres évolutions : notifications de rappel, téléconsultation, mode hors ligne, interopérabilité (HL7 FHIR) avec d'autres établissements.
+Annexes et références
+Bibliographie et webographie normalisées, guide et comptes rendus d'entretiens, maquettes, migrations et seeders, jeu de données fictives, documentation technique, guide utilisateur, matrice de traçabilité.
+3. Spécifications techniques
+Pile technique retenue : Laravel (PHP orienté objet, architecture MVC, PDO), Vue.js avec Inertia.js, MySQL et modélisation UML.
+3.1 Pile technologique
+Composant
+Choix
+Langage et framework
+PHP 8 orienté objet avec Laravel : architecture MVC, routage, validation, authentification, injection de dépendances
+Base de données
+MySQL ; accès via PDO (couche sous-jacente de Laravel) par Eloquent ORM et Query Builder : requêtes préparées, migrations, seeders et factories
+Interface Web
+Vue.js 3 (pages et composants), Inertia.js comme liaison entre Laravel et Vue sans API intermédiaire, Vite, Tailwind CSS ou Bootstrap ; interface responsive
+Authentification et rôles
+Laravel Breeze (variante Vue/Inertia) ; rôles et droits par Gates et Policies
+Modélisation
+UML (StarUML, Draw.io ou Visual Paradigm) ; MCD/MLD avec MySQL Workbench
+Gestion de projet
+Développement itératif, versionnage Git (GitHub ou GitLab), tableau de tâches (Trello)
+Tests
+Tests fonctionnels sur jeux de données fictives (seeders) ; PHPUnit ou Pest intégrés à Laravel
+Perspective mobile
+Flutter (Dart) consommant une API REST JSON (Laravel Sanctum) : étudié en perspectives, non réalisé
+3.2 Organisation du code (Laravel, Vue, Inertia)
+projet-dme/
+├── app/
+│   ├── Http/Controllers/  Auth, RendezVous, Patient...
+│   ├── Http/Requests/     validation des formulaires
+│   ├── Models/            Patient, RendezVous...
+│   └── Policies/          droits d'accès par rôle
+├── database/              migrations, seeders, factories
+├── resources/js/
+│   ├── Pages/             pages Vue par module et par rôle
+│   ├── Components/        composants réutilisables
+│   └── Layouts/           gabarits
+├── routes/web.php         routes de l'application
+└── tests/                 tests fonctionnels
+3.3 Modules fonctionnels
+Module
+Fonctionnalités
+Acteurs
+Authentification et comptes
+Inscription, connexion, réinitialisation du mot de passe, gestion des rôles
+Tous
+Rendez-vous
+Demande, confirmation, report, annulation, agenda du médecin
+Patient, médecin, secrétaire
+Dossier patient
+Identité, antécédents, allergies, constantes, notes de consultation, documents joints
+Médecin, secrétaire
+Consultations
+Motif, diagnostic, prescription, ordonnance imprimable, historique
+Médecin, patient (lecture)
+Espace patient
+Consultation du dossier, des rendez-vous passés et à venir
+Patient
+Administration
+Gestion des utilisateurs, des services et médecins, statistiques, journal d'audit
+Administrateur
+3.4 Exigences non fonctionnelles
+Sécurité : mots de passe hachés, requêtes préparées (Eloquent/PDO), protection CSRF et XSS, validation côté serveur, HTTPS, contrôle d'accès par policies, traçabilité des accès au dossier.
+Confidentialité : un patient ne voit que son propre dossier ; un médecin n'accède qu'à ses patients.
+Performance et disponibilité : temps de réponse raisonnable sur connexion limitée.
+Ergonomie : interface simple, en français, adaptée à des utilisateurs peu familiers du numérique.
+Évolutivité : séparation stricte des responsabilités MVC, permettant d'ajouter un client mobile sans réécrire la logique métier.
+3.5 Entités principales du modèle de données
+Utilisateur, Rôle, Patient, Médecin, Service/Spécialité, RendezVous, Consultation, Ordonnance, Prescription, Document, JournalAudit.
+4. Calendrier de réalisation (14 semaines)
+La rédaction avance en parallèle de la réalisation : chaque semaine produit un livrable écrit. La bonne connaissance de la stack par l'étudiante permet de démarrer la réalisation sans phase d'initiation et de consacrer plus de temps à la qualité du document.
+Semaine
+Phase
+Livrable attendu
+S1
+Cadrage et problématique
+Sujet validé, problématique, objectifs, plan détaillé, stack validée
+S2
+Structure d'accueil et existant
+Chapitres 1 et 2 (brouillon), guide d'entretien
+S3
+Recueil des besoins
+Comptes rendus d'entretiens, revue du cahier des charges de l'étudiante
+S4
+Concepts et état de l'art
+Chapitre 3, étude comparative (revue d'étape 1)
+S5
+Spécification des besoins
+Chapitre 4, diagrammes de cas d'utilisation
+S6
+Conception 1
+Diagrammes de séquence et d'activité
+S7
+Conception 2
+Classes, MCD/MLD, migrations, chapitre 5, premier prototype Laravel + Vue (revue d'étape 2)
+S8
+Itération 1 – socle
+Installation Laravel, Breeze Vue/Inertia, migrations, seeders, authentification et rôles
+S9
+Itération 2 – rendez-vous
+Module rendez-vous, premiers tests
+S10
+Itération 3 – dossier patient
+Dossier et consultations, historique (revue d'étape 3)
+S11
+Tests, sécurité, jeu de données
+Plan de tests, corrections, chapitres 6 à 8
+S12
+Rédaction finale
+Introduction, conclusion, perspectives (dont mobile Flutter), annexes (revue d'étape 4)
+S13
+Relecture et démonstration
+Relecture complète, traçabilité, scénario de démonstration
+S14
+Soutenance
+Mémoire final, supports de présentation, répétition
+5. Exigences de qualité du document
+La qualité du mémoire est le critère prioritaire. Points à vérifier avant chaque revue d'étape :
+Cohérence : chaque besoin identifié se retrouve dans un cas d'utilisation, une classe, un écran et un test (matrice de traçabilité en annexe).
+Justification : chaque choix (méthode, architecture, outil) est argumenté et comparé à au moins une alternative, afin de développer la culture technique de l'étudiante.
+Maîtrise des fondamentaux : l'étudiante sait expliquer le parcours d'une requête dans Laravel, la requête préparée générée par Eloquent et le rôle d'Inertia entre Laravel et Vue.
+Rigueur de la modélisation : diagrammes UML lisibles, numérotés, commentés, et conformes à la norme.
+Sécurité et éthique : données de santé exclusivement fictives pour les tests ; respect du secret médical et du cadre légal sénégalais.
+Forme : figures et tableaux numérotés et légendés, références normalisées, orthographe relue, style impersonnel et précis.
+6. Démonstration de l'application (plus)
+Une démonstration soignée valorise le mémoire. Scénario recommandé, de 5 à 7 minutes :
+Un patient crée son compte et demande un rendez-vous.
+La secrétaire confirme le rendez-vous.
+Le médecin ouvre le dossier, enregistre la consultation et une ordonnance.
+Le patient retrouve la consultation dans son historique.
+L'administrateur consulte le journal d'audit et les statistiques.
+À prévoir : des seeders et factories produisant un jeu de données fictives réaliste, des captures d'écran et une courte vidéo de secours en cas de problème technique le jour de la soutenance.
+7. Points de vigilance et grille d'évaluation
+Protection des données de santé : à démontrer dans la conception et dans le code, pas seulement à citer.
+Périmètre : ne pas ouvrir le chantier mobile ; le traiter proprement en perspectives.
+Équilibre technique et document : la stack étant bien maîtrisée, veiller à ce que l'effort principal porte sur l'analyse, la conception et la rédaction, sans surinvestir dans le développement. Des commits Git réguliers permettent de suivre l'avancement.
+Terrain : planifier tôt les entretiens avec le personnel de santé, car ils conditionnent le chapitre sur l'existant.
+Grille d'évaluation indicative
+Critère
+Barème
+Observations
+Problématique, objectifs, méthodologie
+3
+Clarté et pertinence
+Étude de l'existant et besoins
+3
+Qualité du recueil terrain
+Analyse et conception (UML, base de données)
+5
+Cohérence, rigueur, traçabilité
+Réalisation et tests
+4
+Application fonctionnelle, code conforme aux conventions Laravel
+Sécurité et confidentialité
+2
+Mesures effectivement implémentées
+Forme, rédaction, soutenance, perspectives
+3
+Dont le chapitre sur l'application mobile Flutter
+Total
+20
+Bonus : démonstration de l'application
++1 à +2
+À l'appréciation de l'encadreur et du jury

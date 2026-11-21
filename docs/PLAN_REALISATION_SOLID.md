@@ -1,0 +1,201 @@
+# Plan Directeur de Réalisation – Dossier Médical Électronique (DME)
+
+**Projet :** Étude et mise en place d'un Système de Gestion de Dossier Médical Électronique  
+**Étudiante :** Binetou (IG3 – Licence en Gestion des Systèmes d'Information)  
+**Encadreur :** M. Ahmed Ben Sidy Bouya Seye (Sujet n° 5)  
+**Stack :** Laravel 12/13 (PHP 8.3 OOP), Vue.js 3 (Composition API / TypeScript), Inertia.js, Tailwind CSS / Shadcn, MySQL / SQLite, Pest / PHPUnit  
+
+---
+
+## 1. Vision et Alignement Académique & Technique
+
+Ce plan de réalisation opérationnel fait le pont direct entre :
+1. **Les exigences académiques du professeur** (14 semaines, modélisation UML, sécurité et secret médical, traçabilité CDP Sénégal, 6 modules fonctionnels, scénario de démonstration).
+2. **L'excellence en génie logiciel** : Architecture en couches (Clean / Hexagonal-inspired), respect strict des principes **SOLID** et implémentation concrète des **Design Patterns** (GoF et Enterprise Patterns).
+3. **Le versionnage rigoureux sous Git/GitHub** : Chaque étape fait l'objet d'une branche dédiée `feat/...`, de tests unitaires/fonctionnels et d'un commit conventionnel pushé sur le dépôt distant.
+
+```mermaid
+graph TD
+    UI["Couche Présentation (Vue.js 3 + Inertia.js + Tailwind)"]
+    HTTP["Couche HTTP (Routes, FormRequests, Controllers, Policies)"]
+    DTO["Couche Échange & Données (DTOs Immuables + Builder Pattern)"]
+    SERVICE["Couche Logique Métier (Services + Strategy Pattern)"]
+    REPO["Couche Abstraction Données (Interfaces & Repositories - DIP)"]
+    DATA["Couche Persistance (Eloquent Models, Migrations, MySQL/PDO)"]
+
+    UI --> HTTP
+    HTTP --> DTO
+    HTTP --> SERVICE
+    SERVICE --> REPO
+    REPO --> DATA
+```
+
+---
+
+## 2. Matrice d'Application des Principes SOLID & Design Patterns
+
+| Principe / Pattern | Implémentation dans le DME | Bénéfice Mémoire & Code |
+| :--- | :--- | :--- |
+| **SRP** (*Single Responsibility Principle*) | Découpage net : FormRequest (validation), Controller (orchestration HTTP), Service (règles métier), Repository (requêtage), DTO (transport). | Contrôleurs légers (*Skinny Controllers*), tests ciblés. |
+| **OCP** (*Open/Closed Principle*) | Extension sans modification via interfaces (ex: formats d'export d'ordonnances, règles d'évaluation des constantes). | Facilite l'ajout futur de modules sans casser l'existant. |
+| **LSP** (*Liskov Substitution Principle*) | Toutes les implémentations de repositories ou de builders peuvent se substituer à leurs contrats d'interface sans altérer le comportement. | Interchangeabilité des sources de données et mocks de test fiables. |
+| **ISP** (*Interface Segregation Principle*) | Création d'interfaces fines et ciblées (`BuilderInterface`, `AuditLoggerInterface`, `RendezVousSearchInterface`) plutôt qu'une interface géante. | Pas de méthode superflue forcée sur les classes. |
+| **DIP** (*Dependency Inversion Principle*) | Les Contrôleurs et Services dépendent d'abstractions (Interfaces/Contracts) injectées via le Container de services Laravel, jamais d'implémentations concrètes directes. | Découplage maximal, testabilité unitaire à 100%. |
+| **Builder Pattern** (GoF Création) | `CreatePatientDTOBuilder`, `CreateRendezVousDTOBuilder`, `CreateConsultationDTOBuilder`, etc. | Construction pas à pas, lisible et validée des structures de données complexes. |
+| **Repository Pattern** (Architecture) | `PatientRepositoryInterface` $\rightarrow$ `EloquentPatientRepository`, etc. | Encapsulation de l'accès aux données ; masque Eloquent/PDO derrière un contrat. |
+| **Strategy Pattern** (GoF Comportement) | Stratégies de calcul des alertes sur constantes vitales (IMC, hypertension), stratégies d'annulation/report de rendez-vous. | Algorithmes interchangeables dynamiquement selon le contexte. |
+| **Observer Pattern** (GoF Comportement) | `ConstanteObserver`, `OrdonnanceObserver`, `JournalAuditObserver`. | Réaction automatique aux événements du cycle de vie sans polluer la logique métier. |
+| **Proxy / Policy Pattern** (Sécurité) | Laravel Policies (`DossierMedicalPolicy`, etc.) vérifiant le secret médical avant toute consultation. | Cloisonnement strict des rôles (Patient, Médecin, Secrétaire, Admin). |
+
+---
+
+## 3. Feuille de Route Opérationnelle & Versionnage GitHub
+
+### ✅ Étape 1 : Socle de Base de Données, Modèles & Seeders
+- **Branche Git :** `feat/01_initialisation-de-la-base-de-donner` (Fusionnée / Pushée)
+- **Réalisations :**
+  - 13 tables relationnelles créées (Users, Services, Médecins, Secrétaires, Patients, Dossiers, Constantes, RDV, Consultations, Ordonnances, Prescriptions, Documents, Audit).
+  - Enums typés PHP 8.3 (`UserRole`, `AppointmentStatus`, `BloodGroup`, `AuditAction`).
+  - Observers (`ConstanteObserver`, `OrdonnanceObserver`).
+  - Seeders complets pour générer des données de test réalistes.
+
+---
+
+### ✅ Étape 2 : Data Transfer Objects (DTOs) & Builder Pattern
+- **Branche Git :** `feat/02-Data-Transfere-object` (Pushée sur `origin/feat/02-Data-Transfere-object`)
+- **Principes & Patterns :**
+  - **SRP & DIP :** DTOs immuables (`readonly class`) avec contrats `BuilderInterface` et `DataTransferObjectInterface`.
+  - **Builder Pattern :** 8 Builders pour créer les DTOs complexes en toute sécurité.
+  - **Tests :** 50 assertions de tests unitaires Pest réussies (`tests/Unit/DTOs/DTOAndBuilderTest.php`).
+
+---
+
+### ⏳ Étape 3 : Couche Repository & Contrats d'Interface (DIP & ISP)
+- **Branche Git :** `feat/03-repositories-contracts`
+- **Objectifs :**
+  - Définir les interfaces de persistance (`Contracts/Repositories/`) :
+    - `PatientRepositoryInterface`
+    - `RendezVousRepositoryInterface`
+    - `DossierMedicalRepositoryInterface`
+    - `ConsultationRepositoryInterface`
+    - `JournalAuditRepositoryInterface`
+  - Implémenter les repositories concrets Eloquent (`Repositories/Eloquent/`).
+  - Enregistrer les liaisons (*bindings*) dans un `RepositoryServiceProvider`.
+  - Tests unitaires et d'intégration avec mocks pour valider le DIP.
+- **Commande Git :**
+  ```bash
+  git checkout -b feat/03-repositories-contracts
+  # Code & Tests
+  git commit -m "feat(repo): implementation du pattern Repository et injection des interfaces (DIP/ISP)"
+  git push -u origin feat/03-repositories-contracts
+  ```
+
+---
+
+### ⏳ Étape 4 : Couche Services Métier & Pattern Strategy (Logique Santé & SRP)
+- **Branche Git :** `feat/04-service-layer-and-strategies`
+- **Objectifs :**
+  - Services métier isolés :
+    - `RendezVousService` : Gestion du cycle de vie du RDV (création, confirmation, annulation avec motif, détection de conflits d'horaire).
+    - `DossierMedicalService` : Gestion des constantes, calcul automatique des alertes de constantes (Strategy Pattern pour les seuils de tension, glycémie, IMC).
+    - `ConsultationService` : Clôture de consultation, génération d'ordonnance et items de prescription.
+    - `AuditService` : Enregistrement immuable des accès aux données de santé conformément à la loi CDP Sénégal.
+  - Tests unitaires des services avec simulation des repositories.
+- **Commande Git :**
+  ```bash
+  git checkout -b feat/04-service-layer-and-strategies
+  git commit -m "feat(services): ajout de la couche de services metier et du pattern Strategy"
+  git push -u origin feat/04-service-layer-and-strategies
+  ```
+
+---
+
+### ⏳ Étape 5 : Sécurité, Contrôle d'Accès & Traçabilité (Policies & Secret Médical)
+- **Branche Git :** `feat/05-security-policies-and-audit`
+- **Objectifs :**
+  - Définition des Laravel Policies étanches :
+    - `DossierMedicalPolicy` : Un patient ne peut voir que son dossier ; un médecin n'accède qu'aux patients qu'il suit ou pour lesquels il a une consultation ; la secrétaire n'a accès qu'à l'état civil / RDV.
+    - `RendezVousPolicy` : Droits de confirmation réservés au médecin et à la secrétaire.
+    - `ConsultationPolicy` : Création et modification réservées exclusivement aux médecins.
+  - Middlewares de rôles et journalisation automatique des accès suspects ou non autorisés.
+  - Tests Feature d'autorisation et de sécurité.
+- **Commande Git :**
+  ```bash
+  git checkout -b feat/05-security-policies-and-audit
+  git commit -m "feat(security): policies d'autorisation pour le secret medical et journalisation d'audit"
+  git push -u origin feat/05-security-policies-and-audit
+  ```
+
+---
+
+### ⏳ Étape 6 : Form Requests, Contrôleurs Allégés & API Interne Inertia
+- **Branche Git :** `feat/06-controllers-and-form-requests`
+- **Objectifs :**
+  - `FormRequest` avec règles de validation strictes (dates futures pour RDV, formats de téléphones sénégalais +221, numéros de sécurité sociale, plages de constantes).
+  - Contrôleurs allégés (Skinny Controllers) qui injectent les DTOs vers les Services et retournent les réponses Inertia :
+    - `RendezVousController`
+    - `DossierMedicalController`
+    - `ConsultationController`
+    - `Admin/UserController` & `Admin/AuditController`
+  - Tests fonctionnels complets des requêtes HTTP.
+- **Commande Git :**
+  ```bash
+  git checkout -b feat/06-controllers-and-form-requests
+  git commit -m "feat(http): controllers minces, FormRequests et routes Inertia securisees"
+  git push -u origin feat/06-controllers-and-form-requests
+  ```
+
+---
+
+### ⏳ Étape 7 : Interface Utilisateur Vue.js 3 / Inertia.js (Modulaire & Responsive)
+- **Branche Git :** `feat/07-vue-inertia-frontend`
+- **Objectifs :**
+  - Layouts adaptatifs par profil utilisateur (Patient, Médecin, Secrétaire, Administrateur).
+  - Pages Vue 3 avec TypeScript et Tailwind / Shadcn-vue :
+    - **Espace Patient :** Prise de rendez-vous, calendrier personnel, consultation de son historique et de ses ordonnances.
+    - **Espace Secrétaire :** Gestion des flux d'accueil, validation/report des rendez-vous, enregistrement des constantes initiales.
+    - **Espace Médecin :** Agenda médical du jour, consultation du dossier, saisie de l'examen clinique et ordonnance imprimable.
+    - **Espace Administrateur :** Gestion des comptes, affectation aux spécialités/services, consultation du journal d'audit et statistiques.
+- **Commande Git :**
+  ```bash
+  git checkout -b feat/07-vue-inertia-frontend
+  git commit -m "feat(ui): interfaces Vue.js 3 / Inertia par module et role utilisateur"
+  git push -u origin feat/07-vue-inertia-frontend
+  ```
+
+---
+
+### ⏳ Étape 8 : Scénario de Démonstration Clé en Main & Bonus Soutenance (+2 pts)
+- **Branche Git :** `feat/08-demo-scenario`
+- **Objectifs :**
+  - Implémentation de la commande `php artisan dme:demo` pour préparer l'environnement de présentation.
+  - Déroulé chronologique du scénario recommandé par l'encadreur (5 à 7 min) :
+    1. Inscription et demande de RDV par le patient "Fatou Diop".
+    2. Confirmation et prise en charge par la secrétaire "Aïssatou Ba".
+    3. Examen, enregistrement des constantes et ordonnance par le Dr "Mamadou Ndiaye".
+    4. Consultation instantanée de l'historique par le patient sur son espace.
+    5. Revue des traces d'audit et des métriques par l'administrateur.
+  - Mise en place d'un export PDF/impression propre des ordonnances.
+- **Commande Git :**
+  ```bash
+  git checkout -b feat/08-demo-scenario
+  git commit -m "feat(demo): scenario de demonstration pour la soutenance et export ordonnance"
+  git push -u origin feat/08-demo-scenario
+  ```
+
+---
+
+### ⏳ Étape 9 : Documentation Technique & Matrice de Traçabilité pour le Mémoire
+- **Branche Git :** `feat/09-documentation-memoire`
+- **Objectifs :**
+  - Synthèse technique directement intégrable dans le mémoire (Chapitres 5, 6, 7 et 8) :
+    - Diagrammes de classes & paquetages.
+    - Matrice de traçabilité : *Besoin $\rightarrow$ Cas d'utilisation $\rightarrow$ DTO / Service $\rightarrow$ Écran $\rightarrow$ Test*.
+    - Fiche d'argumentation technique pour la soutenance (Pourquoi Laravel ? Pourquoi Inertia ? Comment fonctionne le cycle requête-réponse ? En quoi consiste la protection PDO contre les injections SQL ?).
+    - Chapitre perspectives : Architecture de l'application mobile Flutter (consommant Laravel Sanctum et réutilisant les mêmes services/modèles).
+- **Commande Git :**
+  ```bash
+  git checkout -b feat/09-documentation-memoire
+  git commit -m "docs: matrice de tracabilite et dossier technique pour le memoire"
+  git push -u origin feat/09-documentation-memoire
+  ```
