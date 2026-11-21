@@ -34,6 +34,18 @@
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Alata&family=Instrument+Sans:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet">
+
+        <style>
+            .material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp, .material-icons {
+                display: inline-block; width: 1em; height: 1em; line-height: 1 !important;
+                box-sizing: content-box; overflow: hidden; white-space: nowrap; direction: ltr; vertical-align: middle;
+            }
+        </style>
+
         @fonts
 
         @vite(['resources/css/app.css', 'resources/js/app.ts', "resources/js/pages/{$page['component']}.vue"])
