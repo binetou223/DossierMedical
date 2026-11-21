@@ -70,25 +70,13 @@ graph TD
 
 ---
 
-### ⏳ Étape 3 : Couche Repository & Contrats d'Interface (DIP & ISP)
-- **Branche Git :** `feat/03-repositories-contracts`
-- **Objectifs :**
-  - Définir les interfaces de persistance (`Contracts/Repositories/`) :
-    - `PatientRepositoryInterface`
-    - `RendezVousRepositoryInterface`
-    - `DossierMedicalRepositoryInterface`
-    - `ConsultationRepositoryInterface`
-    - `JournalAuditRepositoryInterface`
-  - Implémenter les repositories concrets Eloquent (`Repositories/Eloquent/`).
-  - Enregistrer les liaisons (*bindings*) dans un `RepositoryServiceProvider`.
-  - Tests unitaires et d'intégration avec mocks pour valider le DIP.
-- **Commande Git :**
-  ```bash
-  git checkout -b feat/03-repositories-contracts
-  # Code & Tests
-  git commit -m "feat(repo): implementation du pattern Repository et injection des interfaces (DIP/ISP)"
-  git push -u origin feat/03-repositories-contracts
-  ```
+### ✅ Étape 3 : Couche Repository & Contrats d'Interface (DIP & ISP)
+- **Branche Git :** `feat/03-repositories-contracts` (Pushée sur `origin/feat/03-repositories-contracts`)
+- **Principes & Patterns :**
+  - **DIP (Dependency Inversion Principle) :** Injection automatique des abstractions via `RepositoryServiceProvider` lié dans `bootstrap/providers.php`.
+  - **ISP (Interface Segregation Principle) :** Contrats fins et cohérents (`PatientRepositoryInterface`, `RendezVousRepositoryInterface`, `DossierMedicalRepositoryInterface`, `ConsultationRepositoryInterface`, `JournalAuditRepositoryInterface`, `MedecinRepositoryInterface`).
+  - **LSP (Liskov Substitution Principle) :** Implémentations `BaseRepository` et spécialisées Eloquent substituables aux contrats.
+  - **Tests :** 56 tests unitaires et d'intégration validés avec 231 assertions réussies (`tests/Feature/Repositories/RepositoryPatternTest.php`).
 
 ---
 
