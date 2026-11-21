@@ -121,23 +121,17 @@ graph TD
 
 ---
 
-### ⏳ Étape 8 : Scénario de Démonstration Clé en Main & Bonus Soutenance (+2 pts)
-- **Branche Git :** `feat/08-demo-scenario`
-- **Objectifs :**
-  - Implémentation de la commande `php artisan dme:demo` pour préparer l'environnement de présentation.
-  - Déroulé chronologique du scénario recommandé par l'encadreur (5 à 7 min) :
-    1. Inscription et demande de RDV par le patient "Fatou Diop".
-    2. Confirmation et prise en charge par la secrétaire "Aïssatou Ba".
-    3. Examen, enregistrement des constantes et ordonnance par le Dr "Mamadou Ndiaye".
-    4. Consultation instantanée de l'historique par le patient sur son espace.
-    5. Revue des traces d'audit et des métriques par l'administrateur.
-  - Mise en place d'un export PDF/impression propre des ordonnances.
-- **Commande Git :**
-  ```bash
-  git checkout -b feat/08-demo-scenario
-  git commit -m "feat(demo): scenario de demonstration pour la soutenance et export ordonnance"
-  git push -u origin feat/08-demo-scenario
-  ```
+### ✅ Étape 8 : Scénario de Démonstration Clé en Main & Bonus Soutenance (+2 pts)
+- **Branche Git :** `feat/08-demo-scenario` (Pushée sur `origin/feat/08-demo-scenario`)
+- **Principes & Patterns :**
+  - **Command Pattern :** Commande Artisan `php artisan dme:demo {--fresh}` réinitialisant et configurant le scénario de démo en 1 commande.
+  - **Déroulé chronologique du scénario officiel (5 à 7 min) :**
+    1. Patient : Fatou Diop (`patient@dme.sn`) $\rightarrow$ Prise de RDV en ligne.
+    2. Secrétaire : Aïssatou Ba (`secretaire@dme.sn`) $\rightarrow$ Validation et confirmation du RDV en attente.
+    3. Médecin : Dr Mamadou Ndiaye (`medecin@dme.sn`) $\rightarrow$ Alertes cliniques (Strategy Pattern), consultation et ordonnance sécurisée.
+    4. Patient : Retrouve la consultation dans son historique et imprime son ordonnance officielle.
+    5. Administrateur : Dr Ibrahima Diop (`admin@dme.sn`) $\rightarrow$ Supervision KPIs et traçabilité CDP dans le journal d'audit.
+  - **Landing Page Démo :** Page d'accueil officielle valorisant le travail académique et les comptes de test.
 
 ---
 

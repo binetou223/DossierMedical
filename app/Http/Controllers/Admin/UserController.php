@@ -91,8 +91,8 @@ class UserController extends Controller
         if ($role === UserRole::SECRETAIRE && ! $user->secretaire) {
             Secretaire::create([
                 'user_id' => $user->id,
-                'service_id' => $request->input('service_id', 1),
                 'matricule' => 'SEC-'.date('Y').'-'.$user->id,
+                'poste' => 'Accueil et gestion des dossiers',
             ]);
         }
 
