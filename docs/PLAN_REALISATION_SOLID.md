@@ -98,22 +98,12 @@ graph TD
 
 ---
 
-### ⏳ Étape 6 : Form Requests, Contrôleurs Allégés & API Interne Inertia
-- **Branche Git :** `feat/06-controllers-and-form-requests`
-- **Objectifs :**
-  - `FormRequest` avec règles de validation strictes (dates futures pour RDV, formats de téléphones sénégalais +221, numéros de sécurité sociale, plages de constantes).
-  - Contrôleurs allégés (Skinny Controllers) qui injectent les DTOs vers les Services et retournent les réponses Inertia :
-    - `RendezVousController`
-    - `DossierMedicalController`
-    - `ConsultationController`
-    - `Admin/UserController` & `Admin/AuditController`
-  - Tests fonctionnels complets des requêtes HTTP.
-- **Commande Git :**
-  ```bash
-  git checkout -b feat/06-controllers-and-form-requests
-  git commit -m "feat(http): controllers minces, FormRequests et routes Inertia securisees"
-  git push -u origin feat/06-controllers-and-form-requests
-  ```
+### ✅ Étape 6 : Form Requests, Contrôleurs Allégés & API Interne Inertia
+- **Branche Git :** `feat/06-controllers-and-form-requests` (Pushée sur `origin/feat/06-controllers-and-form-requests`)
+- **Principes & Patterns :**
+  - **Skinny Controllers & SRP :** Contrôleurs légers (`PatientController`, `RendezVousController`, `DossierMedicalController`, `ConsultationController`, `AdminDashboardController`, `AuditController`, `UserController`).
+  - **Adapter Pattern :** `FormRequests` stricts avec méthode adaptatrice `toDTO()` (`StorePatientRequest`, `StoreRendezVousRequest`, `StoreConstanteRequest`, `StoreConsultationRequest`, etc.).
+  - **Routage RESTful sécurisé :** Routes web structurées par domaine fonctionnel et protégées par rôles.
 
 ---
 
