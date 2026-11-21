@@ -10,16 +10,21 @@ use Illuminate\Http\Request;
 
 readonly class CreateOrdonnanceDTO implements DataTransferObjectInterface
 {
+    /** @var array<PrescriptionItemDTO> */
+    public array $items;
+
     /**
      * @param  array<PrescriptionItemDTO>  $prescriptions
      */
     public function __construct(
-        public int $consultationId,
+        public ?int $consultationId = null,
         public ?string $numeroReference = null,
         public ?Carbon $dateOrdonnance = null,
         public ?string $instructionsGenerales = null,
         public array $prescriptions = [],
-    ) {}
+    ) {
+        $this->items = $prescriptions;
+    }
 
     public static function builder(): CreateOrdonnanceDTOBuilder
     {

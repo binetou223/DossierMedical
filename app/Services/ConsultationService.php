@@ -46,18 +46,19 @@ class ConsultationService implements ConsultationServiceInterface
 
         if ($ordonnanceDTO !== null) {
             $ordonnanceData = [
-                'instructions_generales' => $ordonnanceDTO->instructionsGenerales ?? $ordonnanceDTO->instructions ?? null,
+                'instructions_generales' => $ordonnanceDTO->instructionsGenerales ?? null,
                 'date_ordonnance' => $ordonnanceDTO->dateOrdonnance?->toDateString() ?? now()->toDateString(),
             ];
 
-            foreach ($ordonnanceDTO->items as $item) {
+            $prescriptionsList = ! empty($ordonnanceDTO->prescriptions) ? $ordonnanceDTO->prescriptions : ($ordonnanceDTO->items ?? []);
+            foreach ($prescriptionsList as $item) {
                 $prescriptions[] = [
                     'nom_medicament' => $item->nomMedicament,
                     'dosage' => $item->dosage,
                     'forme' => $item->forme,
-                    'posologie' => $item->posologie ?? $item->frequence ?? 'Selon prescription médicale',
-                    'duree' => $item->duree ?? ($item->dureeJours ? "{$item->dureeJours} jours" : 'Durée standard'),
-                    'instructions' => $item->instructions ?? $item->instructionsParticulieres ?? null,
+                    'posologie' => $item->posologie ?? 'Selon prescription médicale',
+                    'duree' => $item->duree ?? 'Durée standard',
+                    'instructions' => $item->instructions ?? null,
                 ];
             }
         }

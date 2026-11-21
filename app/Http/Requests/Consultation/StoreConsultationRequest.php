@@ -72,18 +72,20 @@ class StoreConsultationRequest extends FormRequest
         foreach ($validated['ordonnance']['prescriptions'] as $presc) {
             $items[] = new PrescriptionItemDTO(
                 nomMedicament: $presc['nom_medicament'],
-                forme: $presc['forme'] ?? null,
                 dosage: $presc['dosage'] ?? null,
-                frequence: $presc['posologie'] ?? null,
-                dureeJours: null,
-                instructionsParticulieres: $presc['instructions'] ?? null
+                forme: $presc['forme'] ?? null,
+                posologie: (string) ($presc['posologie'] ?? ''),
+                duree: (string) ($presc['duree'] ?? ''),
+                instructions: $presc['instructions'] ?? null
             );
         }
 
         return new CreateOrdonnanceDTO(
-            instructions: $validated['ordonnance']['instructions_generales'] ?? null,
-            dateExpiration: Carbon::now()->addMonths(1),
-            items: $items
+            consultationId: null,
+            numeroReference: null,
+            dateOrdonnance: Carbon::now(),
+            instructionsGenerales: $validated['ordonnance']['instructions_generales'] ?? null,
+            prescriptions: $items
         );
     }
 }
