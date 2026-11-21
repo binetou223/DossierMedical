@@ -1,6 +1,18 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
-import { BookOpen, FolderGit2, LayoutGrid } from '@lucide/vue';
+import { computed } from 'vue';
+import { Link, usePage } from '@inertiajs/vue3';
+import {
+    Activity,
+    BookOpen,
+    Calendar,
+    FileText,
+    FolderGit2,
+    LayoutGrid,
+    ShieldAlert,
+    UserCheck,
+    UserPlus,
+    Users,
+} from '@lucide/vue';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -14,27 +26,113 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-];
+const page = usePage();
+const userRole = computed(() => page.props.auth?.user?.role);
+
+const mainNavItems = computed<NavItem[]>(() => {
+    const role = userRole.value;
+
+    if (role === 'patient') {
+        return [
+            {
+                title: 'Mon Dossier Médical',
+                href: '/mon-dossier',
+                icon: FileText,
+            },
+            {
+                title: 'Mes Rendez-vous',
+                href: '/rendez-vous',
+                icon: Calendar,
+            },
+        ];
+    }
+
+    if (role === 'medecin') {
+        return [
+            {
+                title: 'Agenda des Consultations',
+                href: '/rendez-vous',
+                icon: Calendar,
+            },
+            {
+                title: 'Patients & Dossiers',
+                href: '/patients',
+                icon: Users,
+            },
+        ];
+    }
+
+    if (role === 'secretaire') {
+        return [
+            {
+                title: 'Gestion des Rendez-vous',
+                href: '/rendez-vous',
+                icon: Calendar,
+            },
+            {
+                title: 'Patients',
+                href: '/patients',
+                icon: Users,
+            },
+            {
+                title: 'Nouveau Patient',
+                href: '/patients/create',
+                icon: UserPlus,
+            },
+        ];
+    }
+
+    if (role === 'admin') {
+        return [
+            {
+                title: 'Tableau de bord',
+                href: '/admin/dashboard',
+                icon: LayoutGrid,
+            },
+            {
+                title: 'Gestion Utilisateurs',
+                href: '/admin/users',
+                icon: UserCheck,
+            },
+            {
+                title: "Journal d'Audit (CDP)",
+                href: '/admin/audit',
+                icon: ShieldAlert,
+            },
+            {
+                title: 'Patients',
+                href: '/patients',
+                icon: Users,
+            },
+            {
+                title: 'Rendez-vous',
+                href: '/rendez-vous',
+                icon: Calendar,
+            },
+        ];
+    }
+
+    return [
+        {
+            title: 'Tableau de bord',
+            href: '/dashboard',
+            icon: LayoutGrid,
+        },
+    ];
+});
 
 const footerNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/vue-starter-kit',
-        icon: FolderGit2,
+        title: 'Plan Directeur',
+        href: '/docs/PLAN_REALISATION_SOLID.md',
+        icon: BookOpen,
     },
     {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
-        icon: BookOpen,
+        title: 'Dépôt GitHub',
+        href: 'https://github.com/binetou223/DossierMedical',
+        icon: FolderGit2,
     },
 ];
 </script>
@@ -45,7 +143,7 @@ const footerNavItems: NavItem[] = [
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
-                        <Link :href="dashboard()">
+                        <Link href="/dashboard">
                             <AppLogo />
                         </Link>
                     </SidebarMenuButton>
