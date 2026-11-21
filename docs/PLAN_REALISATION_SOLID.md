@@ -135,17 +135,9 @@ graph TD
 
 ---
 
-### ⏳ Étape 9 : Documentation Technique & Matrice de Traçabilité pour le Mémoire
-- **Branche Git :** `feat/09-documentation-memoire`
-- **Objectifs :**
-  - Synthèse technique directement intégrable dans le mémoire (Chapitres 5, 6, 7 et 8) :
-    - Diagrammes de classes & paquetages.
-    - Matrice de traçabilité : *Besoin $\rightarrow$ Cas d'utilisation $\rightarrow$ DTO / Service $\rightarrow$ Écran $\rightarrow$ Test*.
-    - Fiche d'argumentation technique pour la soutenance (Pourquoi Laravel ? Pourquoi Inertia ? Comment fonctionne le cycle requête-réponse ? En quoi consiste la protection PDO contre les injections SQL ?).
-    - Chapitre perspectives : Architecture de l'application mobile Flutter (consommant Laravel Sanctum et réutilisant les mêmes services/modèles).
-- **Commande Git :**
-  ```bash
-  git checkout -b feat/09-documentation-memoire
-  git commit -m "docs: matrice de tracabilite et dossier technique pour le memoire"
-  git push -u origin feat/09-documentation-memoire
-  ```
+### ✅ Étape 9 : Documentation Technique & Matrice de Traçabilité pour le Mémoire
+- **Branche Git :** `feat/09-documentation-memoire` (Pushée sur `origin/feat/09-documentation-memoire`)
+- **Principes & Livrables :**
+  - **Matrice de Traçabilité complète (`docs/MATRICE_TRACABILITE.md`) :** Correspondance exacte Besoin $\rightarrow$ Cas d'utilisation UML $\rightarrow$ DTO/Builder $\rightarrow$ Service/Repository $\rightarrow$ Écran Vue $\rightarrow$ Test.
+  - **Dossier d'Argumentation & Fondamentaux (`docs/ARGUMENTATION_ET_FONDAMENTAUX.md`) :** Justifications technologiques (Laravel vs MVC natif, Inertia vs SPA, PDO/Eloquent, protection CSRF/XSS, secret médical et loi CDP Sénégal).
+  - **Étude d'Architecture Perspectives Mobile Flutter (`docs/PERSPECTIVES_MOBILE_FLUTTER.md`) :** Conception détaillée avec Laravel Sanctum, API REST JSON et réutilisation 100% de la logique métier.
