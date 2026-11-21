@@ -89,21 +89,12 @@ graph TD
 
 ---
 
-### ⏳ Étape 5 : Sécurité, Contrôle d'Accès & Traçabilité (Policies & Secret Médical)
-- **Branche Git :** `feat/05-security-policies-and-audit`
-- **Objectifs :**
-  - Définition des Laravel Policies étanches :
-    - `DossierMedicalPolicy` : Un patient ne peut voir que son dossier ; un médecin n'accède qu'aux patients qu'il suit ou pour lesquels il a une consultation ; la secrétaire n'a accès qu'à l'état civil / RDV.
-    - `RendezVousPolicy` : Droits de confirmation réservés au médecin et à la secrétaire.
-    - `ConsultationPolicy` : Création et modification réservées exclusivement aux médecins.
-  - Middlewares de rôles et journalisation automatique des accès suspects ou non autorisés.
-  - Tests Feature d'autorisation et de sécurité.
-- **Commande Git :**
-  ```bash
-  git checkout -b feat/05-security-policies-and-audit
-  git commit -m "feat(security): policies d'autorisation pour le secret medical et journalisation d'audit"
-  git push -u origin feat/05-security-policies-and-audit
-  ```
+### ✅ Étape 5 : Sécurité, Contrôle d'Accès & Traçabilité (Policies & Secret Médical)
+- **Branche Git :** `feat/05-security-policies-and-audit` (Pushée sur `origin/feat/05-security-policies-and-audit`)
+- **Principes & Patterns :**
+  - **Proxy / Policy Pattern :** Règles d'autorisations strictes pour le secret médical (`DossierMedicalPolicy`, `RendezVousPolicy`, `ConsultationPolicy`, `PatientPolicy`, `JournalAuditPolicy`).
+  - **Chain of Responsibility Pattern :** Middleware de filtrage par rôle `EnsureUserHasRole` (`role:admin,medecin,...`) avec traçabilité immédiate des violations d'accès (CDP Sénégal).
+  - **Cloisonnement des rôles :** Un patient n'accède qu'à son propre dossier ; un médecin n'édite que ses consultations ; l'administrateur est isolé des données cliniques pures.
 
 ---
 
